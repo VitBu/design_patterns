@@ -1,5 +1,7 @@
 class SingletonType(type):
-    _instance = None
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._instance = None
 
     def __call__(self, *args, **kwargs):        
         if not self._instance:
@@ -8,17 +10,25 @@ class SingletonType(type):
         return self._instance
 
 
-class TestClass(metaclass=SingletonType):
+class ClassOne(metaclass=SingletonType):
     def __init__(self):
-        print('__init__ called.')
+        print('ClassOne __init__ called.')
+
+
+class ClassTwo(metaclass=SingletonType):
+    def __init__(self):
+        print('ClassTwo __init__ called.')
 
 
 if __name__ == "__main__":
-    s1 = TestClass()
-    s2 = TestClass()
+    o1 = ClassOne()
+    o2 = ClassTwo()
+    o3 = ClassOne()
 
-    if s1 is s2:
-        print("It works. Got same object")
-    else:
-        print("Failure. It's not same object")
+    assert o1 is o3, "o1 and o3 should be same object"
+    assert o1 is not o2, "o1 and o2 shouldn't be same object"
+    
+    print('Success!')
 
+
+    
