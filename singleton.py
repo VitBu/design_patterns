@@ -1,9 +1,9 @@
 class SingletonType(type):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, name, bases, dct):        
+        super().__init__(name, bases, dct)
         self._instance = None
 
-    def __call__(self, *args, **kwargs):        
+    def __call__(self, *args, **kwargs):
         if not self._instance:
             self._instance = super().__call__(*args, **kwargs)
     
